@@ -11,5 +11,9 @@ Apache POI を利用した処理のサンプル実装。
 ```bash
 mvn clean package
 
+# シートコピー
 mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.SheetCopySample"
+
+# 図形テキストの設定
+mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.ShapeTextSettingSample"
 ```
