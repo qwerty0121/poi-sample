@@ -98,7 +98,7 @@ public class ShapeTextSettingSample {
    * @return 図形
    */
   private static XSSFShape getShapeByName(Sheet sheet, String shapeName) {
-    if (!(sheet.createDrawingPatriarch() instanceof XSSFDrawing xssfDrawing)) {
+    if (!(sheet.getDrawingPatriarch() instanceof XSSFDrawing xssfDrawing)) {
       // XSSFDrawingでない場合は取得できないのでnullを返す
       return null;
     }
