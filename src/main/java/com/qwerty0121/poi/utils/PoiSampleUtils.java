@@ -7,8 +7,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFDrawing;
+import org.apache.poi.xssf.usermodel.XSSFShape;
 
 public class PoiSampleUtils {
 
@@ -56,6 +60,25 @@ public class PoiSampleUtils {
     try (var is = PoiSampleUtils.class.getClassLoader().getResourceAsStream(Path.of("images", fileName).toString())) {
       return IOUtils.toByteArray(is);
     }
+  }
+
+  /**
+   * 図形名をもとにシート内の図形を取得
+   * 
+   * @param sheet     シート
+   * @param shapeName 図形名
+   * @return 図形
+   */
+  public static XSSFShape getShapeByName(Sheet sheet, String shapeName) {
+    if (!(sheet.getDrawingPatriarch() instanceof XSSFDrawing xssfDrawing)) {
+      // XSSFDrawingでない場合は取得できないのでnullを返す
+      return null;
+    }
+
+    return xssfDrawing.getShapes().stream()
+        .filter(shape -> StringUtils.equals(shape.getShapeName(), shapeName))
+        .findFirst()
+        .orElse(null);
   }
 
   private static File getOrCreateOutputDir() {
