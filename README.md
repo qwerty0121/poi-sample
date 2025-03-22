@@ -16,4 +16,7 @@ mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.SheetCopySample"
 
 # 図形テキストの設定
 mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.ShapeTextSettingSample"
+
+# 画像追加
+mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.AddImageSample"
 ```
