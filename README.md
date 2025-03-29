@@ -19,4 +19,7 @@ mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.ShapeTextSettingSample
 
 # 画像追加
 mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.AddImageSample"
+
+# 図形非表示
+mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.HideShapeSample"
 ```
