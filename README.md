@@ -22,4 +22,7 @@ mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.AddImageSample"
 
 # 図形非表示
 mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.HideShapeSample"
+
+# 図形削除
+mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.RemoveShapeSample"
 ```
