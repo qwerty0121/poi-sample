@@ -25,4 +25,7 @@ mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.HideShapeSample"
 
 # 図形削除
 mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.RemoveShapeSample"
+
+# 図形重なり順変更
+mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.ChangeShapeStackingOrder"
 ```
