@@ -1,6 +1,7 @@
 package com.qwerty0121.poi.sample;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -53,20 +54,23 @@ public class ChangeShapeStackingOrder {
     // CTTwoCellAnchorリストを取得
     var twoCellAnchorList = ctDrawing.getTwoCellAnchorList();
 
-    // twoCellAnchorをxml文字列に変換する
-    var twoCellAnchorXmlTextList = twoCellAnchorList.stream().map(anchor -> {
-      return anchor.xmlText();
-    })
-        .collect(Collectors.toList());
+    // CTTwoCellAnchorリストをコピーし、変更後の順序に変更する
+    // ※今回は逆順にする
+    var newOrderTwoCellAnchorList = new ArrayList<>(twoCellAnchorList);
+    Collections.reverse(newOrderTwoCellAnchorList);
 
-    // 図形の重なり順を逆にする
-    Collections.reverse(twoCellAnchorXmlTextList);
+    // CTTwoCellAnchorをxml文字列に変換しておく
+    // NOTE:
+    // CTDrawingからCTTwoCellAnchorを削除した後にxml文字列に変換すると
+    // XmlValueDisconnectedExceptionが発生するため、削除する前にxml文字列に変換しておく必要がある。
+    var newOrderTwoCellAnchorXmlTextList = newOrderTwoCellAnchorList.stream().map(anchor -> anchor.xmlText())
+        .collect(Collectors.toList());
 
     // 一旦、全ての図形を削除する
     twoCellAnchorList.clear();
 
     // 逆順にした図形を追加する
-    twoCellAnchorXmlTextList.forEach(twoCellAnchor -> {
+    newOrderTwoCellAnchorXmlTextList.forEach(twoCellAnchor -> {
       try {
         ctDrawing.addNewTwoCellAnchor().set(CTTwoCellAnchor.Factory.parse(twoCellAnchor));
       } catch (XmlException e) {
