@@ -17,13 +17,13 @@ import org.apache.poi.xssf.usermodel.XSSFShape;
 public class PoiSampleUtils {
 
   /**
-   * テンプレートファイルからWorkbookを作成する
+   * テンプレートファイルをWorkbookとして読み込む
    * 
    * @param templateFileName テンプレートファイル名
    * @return Workbook
    * @throws IOException
    */
-  public static Workbook createWorkbook(String templateFileName) throws IOException {
+  public static Workbook loadTemplateWorkbook(String templateFileName) throws IOException {
     try (
         var templateFileIS = PoiSampleUtils.class.getClassLoader()
             .getResourceAsStream(templateFileName);) {

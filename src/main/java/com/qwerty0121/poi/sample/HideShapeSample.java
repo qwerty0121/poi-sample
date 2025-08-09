@@ -15,7 +15,7 @@ import com.qwerty0121.poi.utils.PoiSampleUtils;
 public class HideShapeSample {
 
   public static void main(String[] args) throws IOException {
-    try (var workbook = PoiSampleUtils.createWorkbook("図形非表示サンプルテンプレート.xlsx");) {
+    try (var workbook = PoiSampleUtils.loadTemplateWorkbook("図形非表示サンプルテンプレート.xlsx");) {
       // "テスト"シートを取得
       var sheet = workbook.getSheet("テスト");
 

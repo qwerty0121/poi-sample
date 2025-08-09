@@ -17,7 +17,7 @@ import com.qwerty0121.poi.utils.PoiSampleUtils;
 public class ChangeShapeStackingOrder {
 
   public static void main(String[] args) throws IOException {
-    try (var workbook = PoiSampleUtils.createWorkbook("図形重なり順変更テンプレート.xlsx");) {
+    try (var workbook = PoiSampleUtils.loadTemplateWorkbook("図形重なり順変更テンプレート.xlsx");) {
       // "テスト"シートを取得
       var sheet = workbook.getSheet("テスト");
 
