@@ -27,6 +27,9 @@ public class PoiSampleUtils {
     try (
         var templateFileIS = PoiSampleUtils.class.getClassLoader()
             .getResourceAsStream(templateFileName);) {
+      if (templateFileIS == null) {
+        throw new FileNotFoundException("テンプレートファイルが見つかりません: " + templateFileName);
+      }
       var workbook = WorkbookFactory.create(templateFileIS);
       return workbook;
     }
