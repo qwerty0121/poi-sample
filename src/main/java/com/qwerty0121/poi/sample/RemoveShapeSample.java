@@ -13,7 +13,7 @@ import com.qwerty0121.poi.utils.PoiSampleUtils;
 public class RemoveShapeSample {
 
   public static void main(String[] args) throws IOException {
-    try (var workbook = PoiSampleUtils.createWorkbook("図形削除サンプルテンプレート.xlsx");) {
+    try (var workbook = PoiSampleUtils.loadTemplateWorkbook("図形削除サンプルテンプレート.xlsx");) {
       // "テスト"シートを取得
       var sheet = workbook.getSheet("テスト");
 

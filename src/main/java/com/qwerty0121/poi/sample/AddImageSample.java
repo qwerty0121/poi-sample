@@ -15,7 +15,7 @@ import com.qwerty0121.poi.utils.PoiSampleUtils;
 public class AddImageSample {
 
   public static void main(String[] args) throws IOException {
-    try (var workbook = PoiSampleUtils.createWorkbook("画像追加サンプルテンプレート.xlsx");) {
+    try (var workbook = PoiSampleUtils.loadTemplateWorkbook("画像追加サンプルテンプレート.xlsx");) {
       // "テスト"シートを取得
       var sheet = workbook.getSheet("テスト");
 
