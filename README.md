@@ -14,6 +14,9 @@ mvn clean package
 # シートコピー
 mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.SheetCopySample"
 
+# シートコピー(別ワークブック)
+mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.SheetCopyToOtherWorkbookSample"
+
 # 図形テキストの設定
 mvn exec:java -Dexec.mainClass="com.qwerty0121.poi.sample.ShapeTextSettingSample"
 
