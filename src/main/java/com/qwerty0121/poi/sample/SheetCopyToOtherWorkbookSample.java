@@ -54,7 +54,7 @@ public class SheetCopyToOtherWorkbookSample {
    */
   private static void copySheets(XSSFSheet sourceSheet, XSSFSheet newSheet) {
     // セルスタイルを保持するマップ
-    var styleMap = new HashMap<Integer, CellStyle>();
+    var styleMap = new HashMap<CellStyle, CellStyle>();
 
     // シート内容の行をコピーする
     for (int i = sourceSheet.getFirstRowNum(); i <= sourceSheet.getLastRowNum(); i++) {
@@ -81,7 +81,7 @@ public class SheetCopyToOtherWorkbookSample {
    * @param newRow    コピー先の行
    * @param styleMap  セルスタイルを保持するマップ
    */
-  private static void copyRow(Row sourceRow, Row newRow, Map<Integer, CellStyle> styleMap) {
+  private static void copyRow(Row sourceRow, Row newRow, Map<CellStyle, CellStyle> styleMap) {
     // 行内のセルをコピーする
     for (int i = sourceRow.getFirstCellNum(); i < sourceRow.getLastCellNum(); i++) {
       var sourceCell = sourceRow.getCell(i);
@@ -102,19 +102,18 @@ public class SheetCopyToOtherWorkbookSample {
    * @param newCell    コピー先のセル
    * @param styleMap   セルスタイルを保持するマップ
    */
-  private static void copyCell(Cell sourceCell, Cell newCell, Map<Integer, CellStyle> styleMap) {
-    if (sourceCell.getCellStyle() != null) {
-      int hash = sourceCell.getCellStyle().hashCode();
-      if (styleMap.get(hash) != null) {
-        // 既に同じスタイルが存在する場合は再利用
-        newCell.setCellStyle(styleMap.get(hash));
-      } else {
+  private static void copyCell(Cell sourceCell, Cell newCell, Map<CellStyle, CellStyle> styleMap) {
+    // セルスタイルをコピー
+    var sourceCellStyle = sourceCell.getCellStyle();
+    if (sourceCellStyle != null) {
+      var destinationCellStyle = styleMap.get(sourceCellStyle);
+      if (destinationCellStyle == null) {
         // 新しいスタイルを作成してマップに保存
-        var newCellStyle = newCell.getSheet().getWorkbook().createCellStyle();
-        newCellStyle.cloneStyleFrom(sourceCell.getCellStyle());
-        newCell.setCellStyle(newCellStyle);
-        styleMap.put(hash, newCellStyle);
+        destinationCellStyle = newCell.getSheet().getWorkbook().createCellStyle();
+        destinationCellStyle.cloneStyleFrom(sourceCellStyle);
+        styleMap.put(sourceCellStyle, destinationCellStyle);
       }
+      newCell.setCellStyle(destinationCellStyle);
     }
 
     // セルの値をコピー
