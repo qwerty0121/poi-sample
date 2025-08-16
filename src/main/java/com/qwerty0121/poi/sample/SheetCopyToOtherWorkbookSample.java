@@ -168,7 +168,12 @@ public class SheetCopyToOtherWorkbookSample {
   /**
    * シート条件付き書式をコピーする<br>
    * <br>
-   * 条件種別が数式以外である場合はコピーされないので注意
+   * 以下の設定はコピーできないので注意。
+   * <ul>
+   * <li>条件を満たす場合は停止</li>
+   * </ul>
+   * <br>
+   * また、現状では条件種別が数式以外である場合はコピーされないので注意
    * 
    * @param srcSheetConditionalFormatting  コピー元のシート条件付き書式
    * @param destSheetConditionalFormatting コピー先のシート条件付き書式
