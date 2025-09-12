@@ -18,13 +18,13 @@ public class RemoveShapeSample {
       var sheet = workbook.getSheet("テスト");
 
       // 図形を削除する
-      removeSimpleShape(sheet);
+      removeShape(sheet, "shape");
 
       // 図形グループを削除する
-      removeShapeGroup(sheet);
+      removeShape(sheet, "shape-group");
 
       // 画像を削除する
-      removePicture(sheet);
+      removeShape(sheet, "picture");
 
       PoiSampleUtils.writeWorkbook(workbook, "図形削除サンプル.xlsx");
     }
@@ -33,73 +33,62 @@ public class RemoveShapeSample {
   /**
    * 図形を削除する
    * 
-   * @param sheet シート
-   * @throws IOException
+   * @param sheet     シート
+   * @param shapeName 削除対象の図形の名前
    */
-  private static void removeSimpleShape(Sheet sheet) throws IOException {
+  private static void removeShape(Sheet sheet, String shapeName) {
     var drawing = sheet.getDrawingPatriarch();
     if (!(drawing instanceof XSSFDrawing xssfDrawing)) {
       throw new RuntimeException("シートからのDrawingの取得に失敗しました。");
     }
-
-    // 削除対象の図形の名前
-    var name = "shape";
 
     // 図形を削除
-    xssfDrawing.getCTDrawing().getOneCellAnchorList()
-        .removeIf(anchor -> anchor.isSetSp() && anchor.getSp().getNvSpPr().getCNvPr().getName().equals(name));
-    xssfDrawing.getCTDrawing().getTwoCellAnchorList()
-        .removeIf(anchor -> anchor.isSetSp() && anchor.getSp().getNvSpPr().getCNvPr().getName().equals(name));
-    xssfDrawing.getCTDrawing().getAbsoluteAnchorList()
-        .removeIf(anchor -> anchor.isSetSp() && anchor.getSp().getNvSpPr().getCNvPr().getName().equals(name));
-  }
-
-  /**
-   * 図形グループを削除する
-   * 
-   * @param sheet シート
-   * @throws IOException
-   */
-  private static void removeShapeGroup(Sheet sheet) throws IOException {
-    var drawing = sheet.getDrawingPatriarch();
-    if (!(drawing instanceof XSSFDrawing xssfDrawing)) {
-      throw new RuntimeException("シートからのDrawingの取得に失敗しました。");
+    var ctDrawing = xssfDrawing.getCTDrawing();
+    for (int i = 0; i < ctDrawing.getTwoCellAnchorList().size(); i++) {
+      var anchor = ctDrawing.getTwoCellAnchorList().get(i);
+      if (anchor.isSetSp() && anchor.getSp().getNvSpPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeTwoCellAnchor(i);
+        return;
+      }
+      if (anchor.isSetGrpSp() && anchor.getGrpSp().getNvGrpSpPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeTwoCellAnchor(i);
+        return;
+      }
+      if (anchor.isSetPic() && anchor.getPic().getNvPicPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeTwoCellAnchor(i);
+        return;
+      }
     }
-
-    // 削除対象の図形グループの名前
-    var name = "shape-group";
-
-    // 図形グループを削除
-    xssfDrawing.getCTDrawing().getOneCellAnchorList()
-        .removeIf(anchor -> anchor.isSetGrpSp() && anchor.getGrpSp().getNvGrpSpPr().getCNvPr().getName().equals(name));
-    xssfDrawing.getCTDrawing().getTwoCellAnchorList()
-        .removeIf(anchor -> anchor.isSetGrpSp() && anchor.getGrpSp().getNvGrpSpPr().getCNvPr().getName().equals(name));
-    xssfDrawing.getCTDrawing().getAbsoluteAnchorList()
-        .removeIf(anchor -> anchor.isSetGrpSp() && anchor.getGrpSp().getNvGrpSpPr().getCNvPr().getName().equals(name));
-  }
-
-  /**
-   * 画像を削除する
-   * 
-   * @param sheet シート
-   * @throws IOException
-   */
-  private static void removePicture(Sheet sheet) throws IOException {
-    var drawing = sheet.getDrawingPatriarch();
-    if (!(drawing instanceof XSSFDrawing xssfDrawing)) {
-      throw new RuntimeException("シートからのDrawingの取得に失敗しました。");
+    for (int i = 0; i < ctDrawing.getOneCellAnchorList().size(); i++) {
+      var anchor = ctDrawing.getOneCellAnchorList().get(i);
+      if (anchor.isSetSp() && anchor.getSp().getNvSpPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeOneCellAnchor(i);
+        return;
+      }
+      if (anchor.isSetGrpSp() && anchor.getGrpSp().getNvGrpSpPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeOneCellAnchor(i);
+        return;
+      }
+      if (anchor.isSetPic() && anchor.getPic().getNvPicPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeOneCellAnchor(i);
+        return;
+      }
     }
-
-    // 削除対象の画像の名前
-    var name = "picture";
-
-    // 画像を削除
-    xssfDrawing.getCTDrawing().getOneCellAnchorList()
-        .removeIf(anchor -> anchor.isSetPic() && anchor.getPic().getNvPicPr().getCNvPr().getName().equals(name));
-    xssfDrawing.getCTDrawing().getTwoCellAnchorList()
-        .removeIf(anchor -> anchor.isSetPic() && anchor.getPic().getNvPicPr().getCNvPr().getName().equals(name));
-    xssfDrawing.getCTDrawing().getAbsoluteAnchorList()
-        .removeIf(anchor -> anchor.isSetPic() && anchor.getPic().getNvPicPr().getCNvPr().getName().equals(name));
+    for (int i = 0; i < ctDrawing.getAbsoluteAnchorList().size(); i++) {
+      var anchor = ctDrawing.getAbsoluteAnchorList().get(i);
+      if (anchor.isSetSp() && anchor.getSp().getNvSpPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeAbsoluteAnchor(i);
+        return;
+      }
+      if (anchor.isSetGrpSp() && anchor.getGrpSp().getNvGrpSpPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeAbsoluteAnchor(i);
+        return;
+      }
+      if (anchor.isSetPic() && anchor.getPic().getNvPicPr().getCNvPr().getName().equals(shapeName)) {
+        ctDrawing.removeAbsoluteAnchor(i);
+        return;
+      }
+    }
   }
 
 }
